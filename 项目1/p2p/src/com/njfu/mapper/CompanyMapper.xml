@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.CompanyDao">
+	<sql id="companyColumn">
+		companyId,
+		companyName,
+		financingInReturn,
+		companyDetail
+	</sql>
+	<select id="selectCompany" resultType="Company">
+		select
+			<include refid="companyColumn"/>
+		from
+			company
+	</select>
+	
+	<insert id="insertCompany" parameterType="com.njfu.form.CompanyForm">
+		insert into
+			company
+				(companyName,financingInReturn,companyDetail)
+		values
+			(#{companyName},#{financingInReturn},#{companyDetail})
+	</insert>
+	
+	<select id="selectByCompanyId" resultType="Company">
+		select
+			<include refid="companyColumn"/>
+		from
+			company
+		where
+			companyId=#{companyId}
+	</select>
+	
+	<update id="updateCompany" parameterType="com.njfu.form.CompanyForm">
+		update
+			company
+		set
+			companyName=#{companyName},
+			financingInReturn=#{financingInReturn},
+			companyDetail=#{companyDetail}
+		where
+			companyId=#{companyId}
+	</update>
+	
+	<delete id="delCompany">
+		delete
+		from
+			company
+		where
+			companyId=#{companyId}
+	</delete>
+	
+	<select id="selectByCompanyName" resultType="Company">
+		select
+			<include refid="companyColumn"/>
+		from
+			company
+		where
+			companyName=#{companyName}
+	</select>
+	
+	<select id="selectByCompanyIdAndName" resultType="Company">
+		select
+			<include refid="companyColumn"/>
+		from
+			company
+		where
+			companyId!=#{0} and companyName=#{1}
+	</select>
+	
+</mapper>

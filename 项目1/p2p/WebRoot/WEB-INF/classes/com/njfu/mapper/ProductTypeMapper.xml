@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.ProductTypeDao">
+	<sql id="typeColumn">
+		productTypeId,
+		productTypeName,
+		productTypeStatus
+	</sql>
+	
+	<select id="selectProductType" resultType="ProductType">
+		select
+			<include refid="typeColumn"/>
+		from
+			producttype
+	</select>
+	
+	<insert id="insertProductType" parameterType="com.njfu.form.ProductTypeForm">
+		insert into
+			producttype
+				(productTypeName,productTypeStatus)
+			values
+				(#{productTypeName},1)
+	</insert>
+	
+	<update id="updateProductType" parameterType="com.njfu.form.ProductTypeForm">
+		update producttype
+			set
+				productTypeName=#{productTypeName}
+			where
+				productTypeId=#{productTypeId}
+	</update>
+	
+	<update id="updateProductTypeStatus" parameterType="ProductType">
+		update producttype
+			set
+				productTypeStatus=#{productTypeStatus}
+			where
+				productTypeId=#{productTypeId}
+	</update>
+	
+	<select id="selectByTypeName" resultType="ProductType">
+		select
+			<include refid="typeColumn"/>
+		from
+			producttype
+		where
+			productTypeName=#{productTypeName}
+	</select>
+	
+	<select id="selectByTypeIdAndName" resultType="ProductType">
+		select
+			<include refid="typeColumn"/>
+		from
+			producttype
+		where
+			productTypeId!=#{0} and productTypeName=#{1}
+	</select>
+	
+</mapper>

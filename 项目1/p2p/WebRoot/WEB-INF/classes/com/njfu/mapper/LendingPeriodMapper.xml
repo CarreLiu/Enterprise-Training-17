@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.LendingPeriodDao">
+	<sql id="lendColumn">
+		lendingPeriodId,
+		period,
+		periodStatus
+	</sql>
+	
+	<select id="selectLendingPeriod" resultType="LendingPeriod">
+		select
+			<include refid="lendColumn"/>
+		from
+			lendingperiod
+	</select>
+	
+	<insert id="insertLendingPeriod" parameterType="com.njfu.form.LendingPeriodForm">
+		insert into
+			lendingperiod
+				(period,periodStatus)
+			values
+				(#{period},1)
+	</insert>
+	
+	<update id="updateLendingPeriod" parameterType="com.njfu.form.LendingPeriodForm">
+		update lendingperiod
+			set
+				period=#{period}
+			where
+				lendingPeriodId=#{lendingPeriodId}
+	</update>
+	
+	<update id="updatePeriodStatus" parameterType="LendingPeriod">
+		update lendingperiod
+			set
+				periodStatus=#{periodStatus}
+			where
+				lendingPeriodId=#{lendingPeriodId}
+	</update>
+	
+	<select id="selectByPeriod" resultType="LendingPeriod">
+		select
+			<include refid="lendColumn"/>
+		from
+			lendingperiod
+		where
+			period=#{period}
+	</select>
+	
+	<select id="selectByIdAndPeriod" resultType="LendingPeriod">
+		select
+			<include refid="lendColumn"/>
+		from
+			lendingperiod
+		where
+			lendingPeriodId!=#{0} and period=#{1}
+	</select>
+	
+</mapper>

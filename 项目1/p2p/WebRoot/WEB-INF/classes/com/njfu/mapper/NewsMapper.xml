@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.NewsDao">
+	<sql id="newsColumn">
+		newsId,
+		newsTitle,
+		content,
+		createAt,
+		image,
+		heading
+	</sql>
+	<select id="selectNews" resultType="News">
+		select
+			<include refid="newsColumn"/>
+		from
+			news
+	</select>
+	
+	<insert id="insertNews" parameterType="News">
+		insert into
+			news
+				(newsTitle,content,createAt,image,heading)
+		values
+			(#{newsTitle},#{content},#{createAt},#{image},#{heading})
+	</insert>
+	
+	<select id="selectByNewsId" resultType="News">
+		select
+			<include refid="newsColumn"/>
+		from
+			news
+		where
+			newsId=#{newsId}
+	</select>
+	
+	<update id="updateNews" parameterType="News">
+		update
+			news
+		set
+			newsTitle=#{newsTitle},
+			content=#{content},
+			createAt=#{createAt},
+			image=#{image},
+			heading=#{heading}
+			
+		where
+			newsId=#{newsId}
+	</update>
+	
+	<delete id="delNews">
+		delete
+		from
+			news
+		where
+			newsId=#{newsId}
+	</delete>
+	
+	<select id="selectByNewsTitle" resultType="News">
+		select
+			<include refid="newsColumn"/>
+		from
+			news
+		where
+			newsTitle=#{newsTitle}
+	</select>
+	
+	<select id="selectByNewsIdAndTitle" resultType="News">
+		select
+			<include refid="newsColumn"/>
+		from
+			news
+		where
+			newsId!=#{0} and newsTitle=#{1}
+	</select>
+	
+	<select id="selectHeadingNews" resultType="News">
+		select
+			<include refid="newsColumn"/>
+		from
+			news
+		where
+			heading=1
+		order by createAt desc
+	</select>
+	<select id="selectCommonNews" resultType="News">
+		select
+			<include refid="newsColumn"/>
+		from
+			news
+		where
+			heading=0
+		order by createAt desc
+	</select>
+</mapper>

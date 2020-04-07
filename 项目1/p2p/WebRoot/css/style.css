@@ -1,0 +1,51 @@
+/*
+	css for main.html
+	cuiyi@itany.com
+*/
+li {
+	list-style: none;
+	margin-top: 10px;
+}
+
+.container ul {
+	padding: 0px;
+}
+
+.container li a {
+	padding: 6px 100px 6px 40px;
+	margin: 0;
+	text-align: left;
+	display: block;
+}
+
+.page-container a {
+	display: block;
+}
+
+.container li a:hover {
+	padding: 6px 100px 6px 50px;
+	background-color: lightgray;
+	margin: 5px 0 0 0;
+	color: #ffffff;
+}
+
+.menu {
+	width: 25%;
+	float: left;
+}
+
+.page-container {
+	margin-top: 55px;
+	padding-top: 10px;
+	height: 900px;
+	background-color: #3d3d3d !important;
+}
+
+.footer {
+	text-align: center;
+	color: #ffffff;
+}
+
+.footer a {
+	margin-left: 10px;
+}

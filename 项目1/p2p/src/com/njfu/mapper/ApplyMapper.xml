@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.ApplyDao">
+	<sql id="applyColumn">
+		applyId,
+		applyPerson,
+		applyPersonIdCard,
+		applyNum,
+		applyDate,
+		applyProductName,
+		applyProductId
+	</sql>
+	<select id="selectByApplyProductId" resultType="Apply">
+		select
+			<include refid="applyColumn"/>
+		from
+			apply
+		where
+			applyProductId=#{applyProductId}
+	</select>
+	
+	<select id="selectAllCompanyId" resultType="int">
+		select
+			companyId
+		from
+			company
+	</select>
+	
+	<select id="selectAllProductIdByCompanyId" resultType="int">
+		select
+			productId
+		from
+			product
+		where
+			companyId=#{id}
+	</select>
+	
+	<!-- 根据产品id，以及所在年份查询申请人 -->
+	<select id="selectByApplyProductIdAndYear" resultType="Apply">
+		select
+			<include refid="applyColumn"/>
+		from
+			apply
+		where
+			applyProductId=#{0}
+		and
+			left(STR_TO_DATE(applyDate,'%Y-%m-%d'),4)=#{1}
+	</select>
+	
+	<!-- 根据公司id，以及所在年份查询产品 -->
+	<select id="selectAllProductIdByCompanyIdAndYear" resultType="int">
+		select
+			productId
+		from
+			product
+		where
+			companyId=#{0}
+		and
+			left(STR_TO_DATE(createTime,'%Y-%m-%d'),4)=#{1}
+	</select>
+	
+	<insert id="insertApply" parameterType="com.njfu.form.ApplyForm">
+		insert into
+			apply
+				(applyPerson,applyPersonIdCard,applyNum,applyDate,applyProductName,applyProductId)
+		values
+			(#{applyPerson},#{applyPersonIdCard},#{applyNum},#{applyDate},#{applyProductName},#{applyProductId})
+	</insert>
+</mapper>

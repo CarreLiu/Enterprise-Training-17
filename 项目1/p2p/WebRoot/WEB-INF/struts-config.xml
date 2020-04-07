@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="sysuserForm" type="com.njfu.form.SysuserForm"></form-bean>
+		<form-bean name="productForm" type="com.njfu.form.ProductForm"></form-bean>
+		<form-bean name="newsForm" type="com.njfu.form.NewsForm"></form-bean>
+		<form-bean name="productTypeForm" type="com.njfu.form.ProductTypeForm"></form-bean>
+		<form-bean name="lendingPeriodForm" type="com.njfu.form.LendingPeriodForm"></form-bean>
+		<form-bean name="companyForm" type="com.njfu.form.CompanyForm"></form-bean>
+		<form-bean name="applyForm" type="com.njfu.form.ApplyForm"></form-bean>
+	</form-beans>
+	<global-exceptions />
+	<global-forwards>
+		<forward name="findAllProduct" path="/product/productManage.do"></forward>
+		<forward name="findAllNews" path="/news/newsManage.do"></forward>
+		<forward name="findAllProductType" path="/productType/productTypeManage.do"></forward>
+		<forward name="findAllLendingPeriod" path="/lendingPeriod/loanTimeManage.do"></forward>
+		<forward name="findAllCompany" path="/company/companyManage.do"></forward>
+	</global-forwards>
+	<action-mappings>
+		<!-- 显示登录 -->
+		<action path="/sysuser/showLogin" forward="/WEB-INF/pages/background/login.jsp" />
+		
+		<!-- 登录 -->
+		<action path="/sysuser/login" name="sysuserForm" type="com.njfu.action.SysuserAction" parameter="login" input="/WEB-INF/pages/background/login.jsp" >
+			<exception key="com.njfu.exception.userNotFound" type="com.njfu.exception.UserNotFoundException"></exception>
+			<forward name="success" path="/WEB-INF/pages/background/main.jsp"></forward>
+		</action>
+		
+		<!-- collapseOne -->
+		<!-- productManage -->
+		<action path="/product/ajaxProductList"
+			type="com.njfu.action.ProductAction"
+			parameter="productList" />
+		<action path="/product/productManage" forward="/WEB-INF/pages/background/productManage.jsp"></action>		
+		
+		<action path="/product/productAdd" type="com.njfu.action.ProductAction" parameter="toAdd">
+			<forward name="addProduct" path="/WEB-INF/pages/background/productAdd.jsp"></forward>
+		</action>
+		
+		<!-- 产品名称ajax校验 -->
+		<action path="/product/addCheck" type="com.njfu.action.ProductAction" parameter="addCheck"></action>
+		
+		<action path="/product/productAddSuccess" name="productForm" type="com.njfu.action.ProductAction" parameter="productAdd"/>
+		
+		<action path="/product/productModify" type="com.njfu.action.ProductAction" parameter="toModify">
+			<forward name="modifyProduct" path="/WEB-INF/pages/background/productModify.jsp"></forward>
+		</action>
+		<action path="/product/productModifySuccess" name="productForm" type="com.njfu.action.ProductAction" parameter="productModify"/>
+		
+		<action path="/product/productDetail" type="com.njfu.action.ProductAction" parameter="productDetail">
+			<forward name="toDetailPage" path="/WEB-INF/pages/background/productDetail.jsp"></forward>
+		</action>
+		<action path="/product/productDelete" type="com.njfu.action.ProductAction" parameter="productDelete"/>
+		<!-- onlineApply -->
+		<action path="/apply/onlineApply" forward="/WEB-INF/pages/background/onlineApply.jsp"></action>
+		<action path="/apply/ajaxProductList"
+			type="com.njfu.action.ProductAction"
+			parameter="productList" />
+		<action path="/apply/onlineApplyDetail" type="com.njfu.action.ApplyAction" parameter="saveApplyProductId">
+			<forward name="success" path="/WEB-INF/pages/background/onlineApplyDetail.jsp"></forward>
+		</action>
+		<action path="/apply/ajaxApplyList"
+			type="com.njfu.action.ApplyAction"
+			parameter="applyList" />
+		
+		<!-- collapseTwo -->
+		<!-- newsManage -->
+		<action path="/news/ajaxNewsList"
+			type="com.njfu.action.NewsAction"
+			parameter="newsList" />
+		<action path="/news/newsManage" forward="/WEB-INF/pages/background/newsManage.jsp"></action>
+		<action path="/news/newsAdd" forward="/WEB-INF/pages/background/newsAdd.jsp"></action>
+		<action path="/news/addCheck" type="com.njfu.action.NewsAction" parameter="addCheck"></action>
+		<action path="/news/newsAddPost"
+				type="com.njfu.action.NewsAction"
+				parameter="newsAdd"/>
+		<action path="/news/newsModify" type="com.njfu.action.NewsAction" parameter="showByNewsId">
+			<forward name="success" path="/WEB-INF/pages/background/newsModify.jsp"></forward>
+		</action>
+		<action path="/news/modifyCheck" type="com.njfu.action.NewsAction" parameter="modifyCheck"></action>
+		<action path="/news/newsModifyPost"
+				type="com.njfu.action.NewsAction"
+				parameter="newsModify"/>
+		<action path="/news/newsDetail" type="com.njfu.action.NewsAction" parameter="newsDetail">
+			<forward name="toDetailNews" path="/WEB-INF/pages/background/newsDetail.jsp"></forward>
+		</action>
+		<action path="/news/newsDelete" type="com.njfu.action.NewsAction" parameter="newsDelete"/>
+		
+		
+		<!-- collapseThree -->
+		<!-- productTypeManage -->
+		<action path="/productType/ajaxProductTypeList"
+			type="com.njfu.action.ProductTypeAction"
+			parameter="productTypeList"/>
+		<action path="/productType/productTypeManage" forward="/WEB-INF/pages/background/productTypeManage.jsp"></action>
+		<action path="/productType/addCheck" type="com.njfu.action.ProductTypeAction" parameter="addCheck"></action>
+		<action path="/productType/productTypeAdd"
+			name="productTypeForm"
+			type="com.njfu.action.ProductTypeAction"
+			parameter="productTypeAdd"/>
+		<action path="/productType/modifyCheck" type="com.njfu.action.ProductTypeAction" parameter="modifyCheck"></action>
+		<action path="/productType/productTypeModify"
+			name="productTypeForm"
+			type="com.njfu.action.ProductTypeAction"
+			parameter="productTypeModify"/>
+		<action path="/productType/productTypeStatusModify"
+			type="com.njfu.action.ProductTypeAction"
+			parameter="productTypeStatusModify"/>
+		
+		<!-- loanTimeManage -->
+		<action path="/lendingPeriod/ajaxLendingPeriodList"
+			type="com.njfu.action.LendingPeriodAction"
+			parameter="lendingPeriodList" />
+		<action path="/lendingPeriod/loanTimeManage" forward="/WEB-INF/pages/background/loanTimeManage.jsp"></action>
+		<action path="/lendingPeriod/addCheck" type="com.njfu.action.LendingPeriodAction" parameter="addCheck"></action>
+		<action path="/lendingPeriod/lendingPeriodAdd"
+			name="lendingPeriodForm"
+			type="com.njfu.action.LendingPeriodAction"
+			parameter="lendingPeriodAdd"/>
+		<action path="/lendingPeriod/modifyCheck" type="com.njfu.action.LendingPeriodAction" parameter="modifyCheck"></action>
+		<action path="/lendingPeriod/lendingPeriodModify"
+			name="lendingPeriodForm"
+			type="com.njfu.action.LendingPeriodAction"
+			parameter="lendingPeriodModify"/>
+		<action path="/lendingPeriod/periodStatusModify"
+			type="com.njfu.action.LendingPeriodAction"
+			parameter="periodStatusModify"/>
+		
+		<!-- collapseFour -->
+		<!-- companyManage -->
+		<action path="/company/ajaxCompanyList"
+			type="com.njfu.action.CompanyAction"
+			parameter="companyList" />
+		<action path="/company/companyManage" forward="/WEB-INF/pages/background/companyManage.jsp"></action>
+		<action path="/company/companyAdd" forward="/WEB-INF/pages/background/companyAdd.jsp"></action>
+		<action path="/company/addCheck" type="com.njfu.action.CompanyAction" parameter="addCheck"></action>
+		<action path="/company/companyAddPost"
+				name="companyForm"
+				type="com.njfu.action.CompanyAction"
+				parameter="companyAdd"/>
+		<action path="/company/companyModify" type="com.njfu.action.CompanyAction" parameter="showByCompanyId">
+			<forward name="success" path="/WEB-INF/pages/background/companyModify.jsp"></forward>
+		</action>
+		<action path="/company/modifyCheck" type="com.njfu.action.CompanyAction" parameter="modifyCheck"></action>
+		<action path="/company/companyModifyPost"
+				name="companyForm"
+				type="com.njfu.action.CompanyAction"
+				parameter="companyModify"/>
+		<action path="/company/companyDetail" type="com.njfu.action.CompanyAction" parameter="companyDetail">
+			<forward name="toDetailCompany" path="/WEB-INF/pages/background/companyDetail.jsp"></forward>
+		</action>
+		<action path="/company/companyDelete" type="com.njfu.action.CompanyAction" parameter="companyDelete"></action>
+		
+		<!-- companyReport -->
+		<action path="/report/findAll"
+				type="com.njfu.action.ApplyAction"
+				parameter="findAllReport">
+			<forward name="toReportPage" path="/WEB-INF/pages/background/companyReport.jsp"></forward>
+		</action>
+		<!-- 企业报表查询页面 -->
+		<action path="/report/detail"
+				type="com.njfu.action.ApplyAction"
+				parameter="reportDetail">
+			<forward name="toReportDetail" path="/WEB-INF/pages/background/companyReportDetail.jsp"></forward>		
+		</action>
+		
+		<!-- 年度报表查询 -->
+		<action path="/report/yearReport"
+				type="com.njfu.action.ApplyAction"
+				parameter="findYearReport">
+			<forward name="toReportPage" path="/WEB-INF/pages/background/companyReport.jsp"></forward>
+		</action>
+		
+		
+		<!-- 前台 -->
+		<!-- 前台首页(非ajax) -->
+		<action path="/front/index"
+				type="com.njfu.action.IndexAction"
+				parameter="index">
+			<forward name="success" path="/WEB-INF/pages/front/index.jsp"></forward>		
+		</action>
+		<!-- 返回首页前获取条件列表 -->
+		<action path="/front/index_ajax"
+				type="com.njfu.action.IndexAction"
+				parameter="index_ajax">
+			<forward name="success" path="/WEB-INF/pages/front/index_ajax.jsp"></forward>		
+		</action>
+		
+		<!-- 前台首页(ajax分页,不带查询条件) -->
+		<action path="/front/query"
+				type="com.njfu.action.IndexAction"
+				parameter="query"/>
+		
+		<!-- 前台首页(ajax分页,带条件查询) -->
+		<action path="/front/index_ajax1"
+				type="com.njfu.action.IndexAction"
+				parameter="index_ajax">
+			<forward name="success" path="/WEB-INF/pages/front/index_ajax1.jsp"></forward>
+		</action>
+		
+		<!-- ajax按条件查询所有产品 -->
+		<action path="/front/queryCondition"
+				type="com.njfu.action.IndexAction"
+				parameter="queryCondition"></action>
+		
+		<!-- 前台查看详细 -->
+		<action path="/front/product"
+				type="com.njfu.action.FrontProductAction"
+				parameter="productInfo">
+			<forward name="findProduct" path="/WEB-INF/pages/front/product.jsp"></forward>
+		</action>
+		<action path="/front/ajaxApplyList"
+				type="com.njfu.action.FrontProductAction"
+				parameter="applyList"/>
+		<action path="/front/applyAdd"
+				name="applyForm"
+				type="com.njfu.action.FrontProductAction"
+				parameter="applyAdd"></action>
+		
+		<!-- 前台新闻 -->
+		<action path="/front/news"
+				type="com.njfu.action.FrontNewsAction"
+				parameter="headingNewsList">
+			<forward name="findHeadingNews" path="/WEB-INF/pages/front/news.jsp"></forward>
+		</action>
+		<action path="/front/commonNews"
+				type="com.njfu.action.FrontNewsAction"
+				parameter="commonNewsList"/>
+	</action-mappings>
+	<message-resources parameter="com.njfu.struts.ApplicationResources" />
+</struts-config>

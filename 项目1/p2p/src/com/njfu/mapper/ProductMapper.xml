@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.ProductDao">
+	<sql id="productColumn">
+		p.productId "productId",
+		p.productName "productName",
+		p.primeLendingRateFrom "primeLendingRateFrom",
+		p.primeLendingRateTo "primeLendingRateTo",
+		c.companyId "companyId",
+		c.companyName "companyName",
+		c.financingInReturn "financingInReturn",
+		c.companyDetail "companyDetail",
+		p.financingAmountFrom "financingAmountFrom",
+		p.financingAmountTo "financingAmountTo",
+		t.productTypeId "productTypeId",
+		t.productTypeName "productTypeName",
+		t.productTypeStatus "productTypeStatus",
+		l.lendingPeriodId "lendingperiodId",
+		l.period "period",
+		l.periodStatus "periodStatus",
+		p.linkMan "linkMan",
+		p.ownedBank "ownedBank",
+		p.bankIcon "bankIcon",
+		p.productDescription "productDescription",
+		p.createTime "createTime"
+	</sql>
+	<resultMap type="product" id="productResultMap">
+		<id property="productId" column="productId"/>
+		<result property="productName" column="productName"/>
+		<result property="primeLendingRateFrom" column="primeLendingRateFrom"/>
+		<result property="primeLendingRateTo" column="primeLendingRateTo"/>
+		<result property="financingAmountFrom" column="financingAmountFrom"/>
+		<result property="financingAmountTo" column="financingAmountTo"/>
+		<result property="linkMan" column="linkMan"/>
+		<result property="ownedBank" column="ownedBank"/>
+		<result property="bankIcon" column="bankIcon"/>
+		<result property="productDescription" column="productDescription"/>
+		<result property="createTime" column="createTime"/>
+		<result property="companyId" column="companyId"/>
+		<result property="productTypeId" column="productTypeId"/>
+		<result property="lendingPeriodId" column="lendingPeriodId"/>
+		
+		<association property="company" javaType="com.njfu.entity.Company">
+			<id property="companyId" column="companyId"/>
+			<result property="companyName" column="companyName"/>
+			<result property="financingInReturn" column="financingInReturn"/>
+			<result property="companyDetail" column="companyDetail"/>
+		</association>
+		<association property="productType" javaType="com.njfu.entity.ProductType">
+			<id property="productTypeId" column="productTypeId"/>
+			<result property="productTypeName" column="productTypeName"/>
+			<result property="productTypeStatus" column="productTypeStatus"/>
+		</association>
+		<association property="lendingPeriod" javaType="com.njfu.entity.LendingPeriod">
+			<id property="lendingPeriodId" column="lendingPeriodId"/>
+			<result property="period" column="period"/>
+			<result property="periodStatus" column="periodStatus"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectProduct" resultMap="productResultMap">
+		select
+			<include refid="productColumn"/>
+		from
+			product p
+			left join
+				producttype t
+			on
+				p.productTypeId = t.productTypeId
+			left join
+				lendingPeriod l
+			on
+				p.lendingPeriodId = l.lendingPeriodId
+			left join
+				company c
+			on
+				p.companyId = c.companyId
+			order by p.productId
+	</select>
+	
+	<!-- 后台产品添加,根据产品名称和公司id查找 -->
+	<select id="selectByComIdAndProName" resultMap="productResultMap">
+		select
+			<include refid="productColumn"/>
+		from
+			product p
+			left join
+				producttype t
+			on
+				p.productTypeId = t.productTypeId
+			left join
+				lendingPeriod l
+			on
+				p.lendingPeriodId = l.lendingPeriodId
+			left join
+				company c
+			on
+				p.companyId = c.companyId
+			where
+				c.companyId=#{0} and p.productName=#{1}
+	</select>
+	
+	<!-- product插入 -->
+	<insert id="insertProduct" parameterType="com.njfu.form.ProductForm">
+		insert into
+			product
+				(productName,primeLendingRateFrom,primeLendingRateTo,
+				companyId,financingAmountFrom,financingAmountTo,
+				productTypeId,lendingPeriodId,linkMan,ownedBank,
+				productDescription,createTime)
+		values
+			(#{productName},#{primeLendingRateFrom},#{primeLendingRateTo},
+			#{companyId},#{financingAmountFrom},#{financingAmountTo},
+			#{productTypeId},#{lendingPeriodId},#{linkMan},
+			#{ownedBank},#{productDescription}, #{createTime})
+	</insert>
+	
+	<select id="selectByProductId" parameterType="int" resultMap="productResultMap">
+		select
+			<include refid="productColumn"/>
+		from
+			product p
+			left join
+				producttype t
+			on
+				p.productTypeId = t.productTypeId
+			left join
+				lendingPeriod l
+			on
+				p.lendingPeriodId = l.lendingPeriodId
+			left join
+				company c
+			on
+				p.companyId = c.companyId
+		where
+			p.productId=#{productId}
+	</select>
+	
+	<!-- product更新 -->
+	<update id="updateProduct" parameterType="com.njfu.form.ProductForm">
+		update
+			product
+		set
+			primeLendingRateFrom=#{primeLendingRateFrom},
+			primeLendingRateTo=#{primeLendingRateTo},
+			financingAmountFrom=#{financingAmountFrom},
+			financingAmountTo=#{financingAmountTo},
+			productTypeId=#{productTypeId},
+			lendingPeriodId=#{lendingPeriodId},
+			linkMan=#{linkMan},
+			ownedBank=#{ownedBank},
+			productDescription=#{productDescription},
+			createTime=#{createTime}
+		where
+			productId=#{productId}
+	</update>
+	
+	<!-- product删除 -->
+	<delete id="delProduct" parameterType="int">
+		delete
+		from
+			product
+		where
+			productId=#{productId}
+	</delete>
+	
+	<!-- ajax前台分页显示,不带条件 -->
+	<select id="selectFrontProducts" resultMap="productResultMap">
+		select
+			<include refid="productColumn"/>
+		from
+			product p
+			left join
+				producttype t
+			on
+				p.productTypeId = t.productTypeId
+			left join
+				lendingPeriod l
+			on
+				p.lendingPeriodId = l.lendingPeriodId
+			left join
+				company c
+			on
+				p.companyId = c.companyId
+			order by productId
+	</select>
+	
+	<select id="selectFrontProductByQueryVO" parameterType="Product" resultMap="productResultMap">
+		select
+			<include refid="productColumn"/>
+		from
+			product p
+		left join
+			producttype t
+		on
+			p.productTypeId = t.productTypeId
+		left join
+			lendingPeriod l
+		on
+			p.lendingPeriodId = l.lendingPeriodId
+		left join
+			company c
+		on
+			p.companyId = c.companyId
+		<!-- 使用mybatis的动态sql动态拼查询条件 -->
+		<where>
+			<if test="productType != null and productType.productTypeId != null">
+				and t.productTypeId=#{productType.productTypeId}
+			</if>
+			<if test="lendingPeriod != null and lendingPeriod.lendingPeriodId != null">
+				and l.lendingPeriodId=#{lendingPeriod.lendingPeriodId}
+			</if>
+			<if test="primeLendingRateFrom != null">
+				and p.primeLendingRateFrom &gt;=#{primeLendingRateFrom}
+			</if>
+			<if test="primeLendingRateTo != null">
+				and p.primeLendingRateTo &lt;=#{primeLendingRateTo}
+			</if>
+			<if test="financingAmountFrom != null">
+				and p.financingAmountFrom &gt;=#{financingAmountFrom}
+			</if>
+			<if test="financingAmountTo != null">
+				and p.financingAmountTo &lt;=#{financingAmountTo}
+			</if>
+		</where>
+		order by productId
+	</select>
+</mapper>
