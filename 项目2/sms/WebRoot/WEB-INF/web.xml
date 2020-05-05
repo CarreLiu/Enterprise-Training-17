@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>sms</display-name>
+  
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 自定义MVC -->
+  <servlet>
+  	<servlet-name>action</servlet-name>
+  	<servlet-class>com.zte.mvc.controller.ActionServlet</servlet-class>
+  	<!-- 在项目启动时自动加载 -->
+  	<load-on-startup>0</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>action</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 访问权限控制器 -->
+  <filter>
+  	<filter-name>accessFilter</filter-name>
+  	<filter-class>com.njfu.filters.AccessFilter</filter-class>
+  	<init-param>
+  		<param-name>urls</param-name>
+  		<param-value>login.jsp,sysuser/login.do,sysuser/regist.do</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>accessFilter</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  <!-- 字符编码过滤 -->
+  <filter>
+     <filter-name>SetCharacterEncoding</filter-name>
+     <filter-class>com.njfu.filters.SetCharacterEncodingFilter</filter-class>
+  <init-param>
+     <param-name>encoding</param-name>
+     <param-value>UTF-8</param-value>
+  </init-param>
+  </filter>
+  <filter-mapping>
+     <filter-name>SetCharacterEncoding</filter-name>
+     <url-pattern>/*</url-pattern>
+  </filter-mapping>
+</web-app>

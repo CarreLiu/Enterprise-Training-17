@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.SysuserDao">
+
+	<select id="selectUserByUsernamePass" parameterType="sysuserVO" resultType="sysuser">
+		select
+			id,
+			username,
+			password,
+			state
+		from
+			sysuser
+		where
+			username=#{username} and password=#{password}
+	</select>
+	
+	<select id="selectUserByIdAndPass" parameterType="sysuserVO" resultType="Sysuser">
+		 select
+		 	id,username,password,state
+		 from
+		    sysuser
+		 where 
+		    id=#{id} and password=#{password}
+	</select>
+
+	<update id="updatePassById" parameterType="sysuserVO">
+		update
+			sysuser
+		set
+			password=#{newPass}
+		where 
+			id=#{id}
+	</update>
+	
+	<insert id="insertSysuser" parameterType="sysuser">
+		insert into
+			sysuser
+				(username, password, state)
+		values
+			(#{username}, #{password}, #{state})
+	</insert>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.GradeDao">
+
+	<select id="selectAll" resultType="grade">
+		select 
+			gid, gname, gdesc, state
+		from
+			grade
+	</select>
+	
+	<select id="selectIdByName" resultType="int">
+		select 
+			gid
+		from
+			grade
+		where
+			gname=#{gname}
+	</select>
+	
+	<select id="selectByGradename" resultType="grade">
+		select 
+			gid, gname, gdesc, state
+		from
+			grade
+		where
+			gname=#{gname}
+	</select>
+	
+	<insert id="insertGrade" parameterType="grade">
+		insert into
+			grade
+				(gname, gdesc, state)
+		values
+			(#{gname}, #{gdesc}, #{state})
+	</insert>
+	
+	<select id="selectById" resultType="grade">
+     	select 
+			gid, gname, gdesc, state
+		from
+			grade
+		where
+			gid=#{gid}
+     </select>
+     
+     <update id="updateGrade" parameterType="grade">
+     	update
+			grade
+		set 
+			gname=#{gname}, gdesc=#{gdesc}
+		where
+			gid=#{gid}
+     </update>
+     
+     <delete id="deleteGrade">
+     	delete
+     	from
+     		grade
+     	where
+     		gid=#{gid}
+     </delete>
+     
+     <update id="updateGradeState" parameterType="grade">
+     	update
+			grade
+		set 
+			state=#{state}
+		where
+			gid=#{gid}
+     </update>
+     
+     <select id="selectGradesByCondition" parameterType="grade" resultType="grade">
+     	select 
+			gid, gname, gdesc, state
+		from
+			grade
+		<where>
+			<if test="gname != null and gname != ''">
+				and gname like #{gname}
+			</if>
+		</where>
+     </select>
+</mapper>

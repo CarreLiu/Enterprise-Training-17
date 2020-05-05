@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.StudentDao">
+	<resultMap type="student" id="studentResultMap">
+      <id property="sid" column="sid"/>
+      <result property="username" column="username"/>
+      <result property="password" column="password"/>
+      <result property="name" column="name"/>
+      <result property="gender" column="gender"/>
+      <result property="age" column="age"/>
+      <result property="gid" column="gid"/>
+      <result property="cid" column="cid"/>
+      
+      <association property="grade" javaType="grade">
+         <id property="gid" column="gid"/>
+         <result property="gname" column="gname"/>
+         <result property="gdesc" column="gdesc"/>
+         <result property="state" column="state"/>
+      </association>
+      <association property="course" javaType="course">
+         <id property="cid" column="cid"/>
+      	 <result property="cname" column="cname"/>
+      	 <result property="cdesc" column="cdesc"/>
+      	 <result property="state" column="state"/>
+      </association>
+   
+	</resultMap>
+
+
+	<select id="selectStudentsByPage" resultMap="studentResultMap">
+		select 
+			s.sid,
+			s.username,
+			s.password,
+			s.name,
+			s.age,
+			s.gender,
+			g.gname,
+			c.cname
+		from
+			student s
+			left join
+				grade g 
+			on
+				s.gid=g.gid
+			left join
+				course c
+			on
+				s.cid=c.cid
+	</select>
+	
+	<select id="selectByUsername" resultType="student">
+		select 
+			s.sid,
+			s.username,
+			s.password,
+			s.name,
+			s.age,
+			s.gender,
+			g.gname,
+			c.cname
+		from
+			student s
+			left join
+				grade g 
+			on
+				s.gid=g.gid
+			left join
+				course c
+			on
+				s.cid=c.cid
+			where
+				s.username=#{username}
+	</select>
+	<insert id="insertStudent" parameterType="student">
+     	insert into
+			student
+				(username,password,name,gender,age,gid,cid)
+		values
+			(#{username},#{password},#{name},#{gender},#{age},#{gid},#{cid})
+     </insert>
+     
+     <select id="selectById" resultMap="studentResultMap">
+     	select 
+			s.sid,
+			s.username,
+			s.password,
+			s.name,
+			s.age,
+			g.gid,
+			c.cid,
+			s.gender,
+			g.gname,
+			c.cname
+		from
+			student s
+			left join
+				grade g 
+			on
+				s.gid=g.gid
+			left join
+				course c
+			on
+				s.cid=c.cid
+			where
+				s.sid=#{sid}
+     </select>
+     
+     <update id="updateStudent" parameterType="student">
+     	update
+			student
+		set 
+			username=#{username},name=#{name},age=#{age},gender=#{gender},gid=#{gid},cid=#{cid}
+		where
+			sid=#{sid}
+     </update>
+     
+     <delete id="deleteStudent">
+     	delete
+     	from
+     		student
+     	where
+     		sid=#{sid}
+     </delete>
+     
+     <select id="selectStudentsByCondition" parameterType="studentVO" resultMap="studentResultMap">
+     	select 
+			s.sid,
+			s.username,
+			s.password,
+			s.name,
+			s.age,
+			s.gender,
+			g.gname,
+			c.cname
+		from
+			student s
+			left join
+				grade g 
+			on
+				s.gid=g.gid
+			left join
+				course c
+			on
+				s.cid=c.cid
+		<where>
+			<if test="name != null and name != ''">
+				and s.name like #{name}
+			</if>
+			<if test="minAge != null and minAge != 0">
+				and s.age &gt;=#{minAge}
+			</if>
+			<if test="maxAge != null and maxAge != 0">
+				and s.age &lt;=#{maxAge}
+			</if>
+			<if test="gender != null">
+				and s.gender = #{gender}
+			</if>
+			<if test="gid != null and gid != 0">
+				and s.gid = #{gid}
+			</if>
+			<if test="cid != null and cid != 0">
+				and s.cid = #{cid}
+			</if>
+		</where>
+     </select>
+     
+     <select id="selectUserByUsernameAndPass" resultMap="studentResultMap">
+     	select 
+			s.sid,
+			s.username,
+			s.password,
+			s.name,
+			s.age,
+			g.gid,
+			c.cid,
+			s.gender,
+			g.gname,
+			c.cname
+		from
+			student s
+			left join
+				grade g 
+			on
+				s.gid=g.gid
+			left join
+				course c
+			on
+				s.cid=c.cid
+		where 
+			username=#{0} and password=#{1}
+     </select>
+     
+     <select id="selectUserByIdAndPass" parameterType="studentVO2" resultType="student">
+		 select
+		 	sid,username,password,name
+		 from
+		    student
+		 where 
+		    sid=#{sid} and password=#{password}
+	</select>
+
+	<update id="updatePassById" parameterType="studentVO2">
+		update
+			student
+		set
+			password=#{newPass}
+		where 
+			sid=#{sid}
+	</update>
+</mapper>

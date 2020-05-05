@@ -1,0 +1,9 @@
+.tooltipMsg{
+	width: 180px;
+	background: rgba(131,160,145,0.7);/*可以通过取色器插件获取值*/
+	color: white;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 4px;
+	
+}

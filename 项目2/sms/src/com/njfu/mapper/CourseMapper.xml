@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.dao.CourseDao">
+
+	<select id="selectAll" resultType="course">
+		select 
+			cid, cname, cdesc, state
+		from
+			course
+	</select>
+	
+	<select id="selectIdByName" resultType="int">
+		select 
+			cid
+		from
+			course
+		where
+			cname=#{cname}
+	</select>
+	
+	<select id="selectByCoursename" resultType="course">
+		select 
+			cid, cname, cdesc, state
+		from
+			course
+		where
+			cname=#{cname}
+	</select>
+	
+	<insert id="insertCourse" parameterType="course">
+		insert into
+			course
+				(cname, cdesc, state)
+		values
+			(#{cname}, #{cdesc}, #{state})
+	</insert>
+	
+	<select id="selectById" resultType="course">
+     	select 
+			cid, cname, cdesc, state
+		from
+			course
+		where
+			cid=#{cid}
+     </select>
+     
+     <update id="updateCourse" parameterType="course">
+     	update
+			course
+		set 
+			cname=#{cname}, cdesc=#{cdesc}
+		where
+			cid=#{cid}
+     </update>
+     
+     <delete id="deleteCourse">
+     	delete
+     	from
+     		course
+     	where
+     		cid=#{cid}
+     </delete>
+     
+     <update id="updateCourseState" parameterType="course">
+     	update
+			course
+		set 
+			state=#{state}
+		where
+			cid=#{cid}
+     </update>
+     
+     <select id="selectCoursesByCondition" parameterType="course" resultType="course">
+     	select 
+			cid, cname, cdesc, state
+		from
+			course
+		<where>
+			<if test="cname != null and cname != ''">
+				and cname like #{cname}
+			</if>
+		</where>
+     </select>
+</mapper>

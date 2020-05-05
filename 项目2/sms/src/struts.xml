@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<action-mappings>
+	<!-- 登录功能 -->
+	<action path="/sysuser/login" type="com.njfu.action.SysuserAction" method="login">
+		<result name="admin" path="/WEB-INF/pages/adminPage/adminMain1.jsp" />
+		<result name="student" path="/WEB-INF/pages/studentPage/studentMain.jsp" />
+		<result name="fail" path="/login.jsp" />
+	</action>
+	
+	<!-- 管理员注册功能 -->
+  	<action path="/sysuser/regist" type="com.njfu.action.SysuserAction" method="addSysuser">
+  		<result name="toRegist" path="/login.jsp"></result>
+  	</action>
+	
+	<!-- 显示首页(非ajax) -->
+	<action path="/student/findAll" type="com.njfu.action.StudentAction" method="findStudents">
+		<result name="adminMain" path="/WEB-INF/pages/adminPage/adminMain.jsp"></result>
+	</action>
+	
+	<!-- 显示首页(非ajax) -->
+	<action path="/sysuser/toAdminMain" type="com.njfu.action.SysuserAction" method="toAdminMain">
+		<result name="adminMain" path="/WEB-INF/pages/adminPage/adminMain1.jsp"></result>
+	</action>
+	
+	<!-- ajax分页 -->
+	<action path="/student/findAllByPage"
+			type="com.njfu.action.StudentAction" 
+			method="findStudentsByPage">
+	   <result type="json"/>
+	</action>
+	
+	<!-- ajax修改管理员密码 -->
+	<action path="/sysuser/modifyPwd" type="com.njfu.action.SysuserAction" method="modifyPwd">
+  	  <result type="json"/>
+  	</action>
+  	
+  	<!-- 退出系统 -->
+  	<action path="/sysuser/logOut" type="com.njfu.action.SysuserAction" method="logOut">
+  		<result type="json"/>
+  	</action>
+  	
+  	<!-- 学生管理 -->
+  	<action path="/student/studentManager" type="com.njfu.action.StudentAction" method="toStudentManager">
+  		<result name="toStudentManager" path="/WEB-INF/pages/adminPage/studentManager.jsp"/>
+  	</action>
+	
+	<!-- 校验用户名是否已经存在 -->
+	<action path="/student/findByUsername" type="com.njfu.action.StudentAction" method="findByUsername">
+		<result type="json"/>
+	</action>
+	  	
+  	<!-- 添加新学员 -->
+  	<action path="/student/addStudent" type="com.njfu.action.StudentAction" method="addStudent">
+  		<result name="toStudentManager" path="/WEB-INF/pages/adminPage/studentManager.jsp"/>
+  	</action>
+  	
+  	<!-- 显示修改学员页面 -->
+  	<action path="/student/findById" type="com.njfu.action.StudentAction" method="findById">
+  		<result type="json"/>
+  	</action>
+  	<!-- 修改学员 -->
+  	<action path="/student/modifyStudent" type="com.njfu.action.StudentAction" method="modifyStudent">
+  		<result name="toStudentManager" path="/student/studentManager.do"></result>
+  	</action>
+  	
+  	<!-- 删除学员 -->
+  	<action path="/student/deleteStudent" type="com.njfu.action.StudentAction" method="deleteStudent">
+  		<result name="toStudentManager" path="/student/studentManager.do"></result>
+  	</action>
+  	
+  	<!-- 导出数据到excel文件 -->
+  	<action path="/student/exportExcel" type="com.njfu.action.StudentAction" method="exportExcel">
+  		<!-- 不需要返回值,不是返回json -->
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 导出数据到数据库 -->
+  	<action path="/student/importExcel" type="com.njfu.action.StudentAction" method="importExcel">
+  		<result name="toStudentManager" path="/student/studentManager.do"></result>
+  	</action>
+  	
+  	<!-- 按条件查询学员信息 -->
+  	<action path="/student/findByCondition" type="com.njfu.action.StudentAction" method="findByCondition">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 班级管理 -->
+  	<action path="/grade/gradeManager" type="com.njfu.action.GradeAction" method="toGradeManager">
+  		<result name="toGradeManager" path="/WEB-INF/pages/adminPage/gradeManager.jsp"></result>
+  	</action>
+  	
+  	<!-- ajax班级分页 -->
+  	<action path="/grade/findAllGrade" type="com.njfu.action.GradeAction" method="findAllGrade">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 校验班级名称是否已经存在 -->
+	<action path="/grade/findByGradename" type="com.njfu.action.GradeAction" method="findByGradename">
+		<result type="json"/>
+	</action>
+  	
+  	<!-- 添加新班级 -->
+  	<action path="/grade/addGrade" type="com.njfu.action.GradeAction" method="addGrade">
+  		<result name="toGradeManager" path="/WEB-INF/pages/adminPage/gradeManager.jsp"/>
+  	</action>
+  	
+  	<!-- 显示班级管理修改页面 -->
+  	<action path="/grade/findById" type="com.njfu.action.GradeAction" method="findById">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 修改班级 -->
+  	<action path="/grade/modifyGrade" type="com.njfu.action.GradeAction" method="modifyGrade">
+  		<result name="toGradeManager" path="/grade/gradeManager.do"></result>
+  	</action>
+  	
+  	<!-- 删除班级 -->
+  	<action path="/grade/deleteGrade" type="com.njfu.action.GradeAction" method="deleteGrade">
+  		<result name="toGradeManager" path="/grade/gradeManager.do"></result>
+  	</action>
+  	
+  	<!-- 修改班级状态 -->
+  	<action path="/grade/modifyGradeState" type="com.njfu.action.GradeAction" method="modifyGradeState">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 按条件查询班级信息 -->
+  	<action path="/grade/findByCondition" type="com.njfu.action.GradeAction" method="findByCondition">
+  		<result type="json" />
+  	</action>
+  	
+  	
+  	<!-- 课程管理 -->
+  	<action path="/course/courseManager" type="com.njfu.action.CourseAction" method="toCourseManager">
+  		<result name="toCourseManager" path="/WEB-INF/pages/adminPage/courseManager.jsp"></result>
+  	</action>
+  	
+  	<!-- ajax课程分页 -->
+  	<action path="/course/findAllCourse" type="com.njfu.action.CourseAction" method="findAllCourse">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 校验课程名称是否已经存在 -->
+	<action path="/course/findByCoursename" type="com.njfu.action.CourseAction" method="findByCoursename">
+		<result type="json"/>
+	</action>
+  	
+  	<!-- 添加新课程 -->
+  	<action path="/course/addCourse" type="com.njfu.action.CourseAction" method="addCourse">
+  		<result name="toCourseManager" path="/WEB-INF/pages/adminPage/courseManager.jsp"/>
+  	</action>
+  	
+  	<!-- 显示课程管理修改页面 -->
+  	<action path="/course/findById" type="com.njfu.action.CourseAction" method="findById">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 修改课程 -->
+  	<action path="/course/modifyCourse" type="com.njfu.action.CourseAction" method="modifyCourse">
+  		<result name="toCourseManager" path="/course/courseManager.do"></result>
+  	</action>
+  	
+  	<!-- 删除课程 -->
+  	<action path="/course/deleteCourse" type="com.njfu.action.CourseAction" method="deleteCourse">
+  		<result name="toCourseManager" path="/course/courseManager.do"></result>
+  	</action>
+  	
+  	<!-- 修改课程状态 -->
+  	<action path="/course/modifyCourseState" type="com.njfu.action.CourseAction" method="modifyCourseState">
+  		<result type="json" />
+  	</action>
+  	
+  	
+  	<!-- 日志管理 -->
+  	<action path="/blog/blogManager" type="com.njfu.action.BlogAction" method="toBlogManager">
+  		<result name="toBlogManager" path="/WEB-INF/pages/adminPage/blogManager.jsp"/>
+  	</action>
+  	
+  	<!-- ajax日志分页 -->
+  	<action path="/blog/findAllBlog" type="com.njfu.action.BlogAction" method="findAllBlog">
+  		<result type="json" />
+  	</action>
+	
+	<!-- 日志详情 -->
+	<action path="/blog/blogDetail" type="com.njfu.action.BlogAction" method="blogDetail">
+  		<result type="json" />
+  	</action>
+	
+  	<!-- 删除日志 -->
+  	<action path="/blog/deleteBlog" type="com.njfu.action.BlogAction" method="deleteBlog">
+  		<result name="toBlogManager" path="/blog/blogManager.do"></result>
+  	</action>
+  	
+  	
+  	
+  	<!-- 学生用户首页 -->
+  	<action path="/student/toStudentMain" type="com.njfu.action.StudentAction" method="toStudentMain">
+		<result name="toStudentMain" path="/WEB-INF/pages/studentPage/studentMain.jsp"/>
+	</action>
+	
+	<!-- ajax修改学生用户密码 -->
+	<action path="/student/modifyPwd" type="com.njfu.action.StudentAction" method="modifyPwd">
+  	  <result type="json"/>
+  	</action>
+  	
+  	<!-- 退出系统 -->
+  	<action path="/student/logOut" type="com.njfu.action.StudentAction" method="logOut">
+  		<result type="json"/>
+  	</action>
+  	
+  	<!-- 学生用户的日志 -->
+  	<action path="/blog/toStudentBlog" type="com.njfu.action.BlogAction" method="toStudentBlog">
+		<result name="toStudentBlog" path="/WEB-INF/pages/studentPage/studentBlog.jsp"/>
+	</action>
+	
+	<!-- 删除日志 -->
+  	<action path="/blog/deleteBlog2" type="com.njfu.action.BlogAction" method="deleteBlog2">
+  		<result name="toBlogManager2" path="/blog/toStudentBlog.do"></result>
+  	</action>
+  	
+  	<!-- 登录用户的日志 -->
+  	<action path="/blog/findBlogByStudent" type="com.njfu.action.BlogAction" method="findBlogByStudent">
+		<result type="json"/>
+  	</action>
+  	
+  	<!-- 显示日志更新模态框 -->
+  	<action path="/blog/findById" type="com.njfu.action.BlogAction" method="findById">
+  		<result type="json" />
+  	</action>
+  	
+  	<!-- 日志更新 -->
+  	<action path="/blog/modifyBlog" type="com.njfu.action.BlogAction" method="modifyBlog">
+  		<result name="toStudentBlog" path="/WEB-INF/pages/studentPage/studentBlog.jsp"></result>
+  	</action>
+  	
+  	<!-- 显示发表日志页面 -->
+  	<action path="/blog/toNewBlog" type="com.njfu.action.BlogAction" method="toNewBlog">
+  		<result name="toNewBlog" path="/WEB-INF/pages/studentPage/newBlog.jsp"/>
+  	</action>
+  	
+  	<!-- 发表日志  -->
+  	<action path="/blog/addBlog" type="com.njfu.action.BlogAction" method="addBlog">
+  		<result name="toStudentBlog" path="/WEB-INF/pages/studentPage/studentBlog.jsp"/>
+  	</action>
+  	
+  	<!-- 更新个人信息 -->
+  	<action path="/student/modifyStudentInfo" type="com.njfu.action.StudentAction" method="modifyStudentInfo">
+  		<result name="toStudentMain" path="/WEB-INF/pages/studentPage/studentMain.jsp"></result>
+  	</action>
+  	
+</action-mappings>

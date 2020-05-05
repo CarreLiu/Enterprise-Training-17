@@ -1,0 +1,16 @@
+transaction=com.njfu.transaction.impl.MyBatisTransactionManager
+mybatisDao=com.njfu.dao
+sysuserProxy=com.njfu.service.proxy.SysuserProxy
+sysuserService=com.njfu.service.impl.SysuserServiceImpl
+studentProxy=com.njfu.service.proxy.StudentProxy
+studentService=com.njfu.service.impl.StudentServiceImpl
+gradeProxy=com.njfu.service.proxy.GradeProxy
+gradeService=com.njfu.service.impl.GradeServiceImpl
+courseProxy=com.njfu.service.proxy.CourseProxy
+courseService=com.njfu.service.impl.CourseServiceImpl
+blogProxy=com.njfu.service.proxy.BlogProxy
+blogService=com.njfu.service.impl.BlogServiceImpl
+
+
+##
+##
