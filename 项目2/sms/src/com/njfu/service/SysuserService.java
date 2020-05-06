@@ -3,6 +3,7 @@ package com.njfu.service;
 import com.njfu.entity.Sysuser;
 import com.njfu.entity.vo.SysuserVO;
 import com.njfu.exception.OldPassWrongException;
+import com.njfu.exception.SysuserUsernameExistException;
 import com.njfu.exception.UserOrPassWrongException;
 
 public interface SysuserService {
@@ -13,6 +14,8 @@ public interface SysuserService {
 	
 	public void modifyPassById(SysuserVO sysuserVO);
 
+	public Sysuser findByUsername(String username) throws SysuserUsernameExistException;
+	
 	public void addSysuser(Sysuser sysuser);
 
 }

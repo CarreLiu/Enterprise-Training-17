@@ -1,14 +1,18 @@
 package com.njfu.action;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.njfu.constant.Constant;
 import com.njfu.entity.Student;
 import com.njfu.entity.Sysuser;
 import com.njfu.entity.vo.SysuserVO;
+import com.njfu.exception.SysuserUsernameExistException;
 import com.njfu.exception.UserOrPassWrongException;
 import com.njfu.factory.ObjectFactory;
 import com.njfu.service.StudentService;
@@ -89,6 +93,23 @@ public class SysuserAction {
 	public String toAdminMain(HttpServletRequest req, HttpServletResponse resp) {
 		//返回首页
 		return "adminMain";
+	}
+	
+	public void findByUsername(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.setContentType(Constant.CONTENT_TYPE);
+		String username = req.getParameter("username");
+		SysuserService sysuserProxy  = (SysuserService) ObjectFactory.getObject("sysuserProxy");
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			sysuserProxy.findByUsername(username);
+			map.put("valid", true);//设置valid属性,在false时,输出message所对应的值
+		} catch (SysuserUsernameExistException e) {
+			// TODO Auto-generated catch block
+			map.put("valid", false);
+			map.put("message", e.getMessage());
+		}
+		//返回2个值:message,是否输出该消息:valid
+		resp.getWriter().print(JSON.toJSON(map));
 	}
 	
 	public String addSysuser(HttpServletRequest req, HttpServletResponse resp) {

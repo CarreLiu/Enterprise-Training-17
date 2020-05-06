@@ -4,6 +4,7 @@ import com.njfu.dao.SysuserDao;
 import com.njfu.entity.Sysuser;
 import com.njfu.entity.vo.SysuserVO;
 import com.njfu.exception.OldPassWrongException;
+import com.njfu.exception.SysuserUsernameExistException;
 import com.njfu.exception.UserOrPassWrongException;
 import com.njfu.factory.ObjectFactory;
 import com.njfu.service.SysuserService;
@@ -36,6 +37,17 @@ public class SysuserServiceImpl implements SysuserService {
 		SysuserDao sysuserDao = (SysuserDao)ObjectFactory.getObject("sysuserDao");
 		sysuserDao.updatePassById(sysuserVO);
 		
+	}
+	
+	@Override
+	public Sysuser findByUsername(String username) throws SysuserUsernameExistException {
+		SysuserDao sysuserDao = (SysuserDao)ObjectFactory.getObject("sysuserDao");
+		Sysuser sysuser = sysuserDao.selectByUsername(username);
+		if (sysuser != null) {
+			throw new SysuserUsernameExistException("用户名(" + username + ")已经被占用");
+		}
+		
+		return sysuser;
 	}
 
 	@Override

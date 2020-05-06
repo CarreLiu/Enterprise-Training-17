@@ -7,6 +7,11 @@
 		<result name="fail" path="/login.jsp" />
 	</action>
 	
+	<!-- 远程校验注册时的用户名是否已存在 -->
+	<action path="/sysuser/findByUsername" type="com.njfu.action.SysuserAction" method="findByUsername">
+		<result type="json" />
+	</action>
+	
 	<!-- 管理员注册功能 -->
   	<action path="/sysuser/regist" type="com.njfu.action.SysuserAction" method="addSysuser">
   		<result name="toRegist" path="/login.jsp"></result>
@@ -193,7 +198,7 @@
   	
   	
   	
-  	<!-- 学生用户首页 -->
+  	<!-- 前台学生用户首页 -->
   	<action path="/student/toStudentMain" type="com.njfu.action.StudentAction" method="toStudentMain">
 		<result name="toStudentMain" path="/WEB-INF/pages/studentPage/studentMain.jsp"/>
 	</action>

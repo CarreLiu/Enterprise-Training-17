@@ -32,6 +32,15 @@
 			id=#{id}
 	</update>
 	
+	<select id="selectByUsername" resultType="sysuser">
+		select
+		 	id,username,password,state
+		 from
+		    sysuser
+		 where 
+		    username=#{username}
+	</select>
+	
 	<insert id="insertSysuser" parameterType="sysuser">
 		insert into
 			sysuser

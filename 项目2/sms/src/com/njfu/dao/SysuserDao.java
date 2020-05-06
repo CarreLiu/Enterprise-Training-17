@@ -11,6 +11,8 @@ public interface SysuserDao {
 
 	public void updatePassById(SysuserVO sysuserVO);
 
+	Sysuser selectByUsername(String username);
+	
 	public void insertSysuser(Sysuser sysuser);
 	
 }

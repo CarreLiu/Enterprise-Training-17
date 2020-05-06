@@ -135,6 +135,10 @@
                         validators: {
                             notEmpty: {
                                 message: '用户名不能为空'
+                            },
+                            remote: {
+                            	type: 'post',
+                            	url: '${pageContext.request.contextPath}/sysuser/findByUsername.do'
                             }
                         }
                     },

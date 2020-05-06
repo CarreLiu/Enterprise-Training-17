@@ -25,7 +25,7 @@
   	<filter-class>com.njfu.filters.AccessFilter</filter-class>
   	<init-param>
   		<param-name>urls</param-name>
-  		<param-value>login.jsp,sysuser/login.do,sysuser/regist.do</param-value>
+  		<param-value>login.jsp,sysuser/login.do,sysuser/regist.do,sysuser/findByUsername.do</param-value>
   	</init-param>
   </filter>
   <filter-mapping>

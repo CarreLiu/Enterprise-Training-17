@@ -5,6 +5,7 @@ import com.njfu.entity.vo.SysuserVO;
 import com.njfu.exception.DataAccessException;
 import com.njfu.exception.OldPassWrongException;
 import com.njfu.exception.ServiceException;
+import com.njfu.exception.SysuserUsernameExistException;
 import com.njfu.exception.UserOrPassWrongException;
 import com.njfu.factory.ObjectFactory;
 import com.njfu.service.SysuserService;
@@ -68,6 +69,22 @@ public class SysuserProxy implements SysuserService {
 		}
 	}
 
+	@Override
+	public Sysuser findByUsername(String username) throws SysuserUsernameExistException {
+		TransactionManager tran = (TransactionManager) ObjectFactory.getObject("transaction");
+		SysuserService sysuserService = (SysuserService)ObjectFactory.getObject("sysuserService");
+		Sysuser sysuser = null;
+		try {
+			tran.beginTransaction();
+			sysuser = sysuserService.findByUsername(username);
+			tran.commit();
+		} catch (SysuserUsernameExistException e) {
+			throw e;
+		}
+		
+		return sysuser;
+	}
+	
 	@Override
 	public void addSysuser(Sysuser sysuser) {
 		TransactionManager tran = (TransactionManager)ObjectFactory.getObject("transaction");
