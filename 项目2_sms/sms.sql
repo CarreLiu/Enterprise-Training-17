@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50728
 File Encoding         : 65001
 
-Date: 2020-05-06 02:29:16
+Date: 2020-05-07 09:52:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,7 +61,7 @@ CREATE TABLE `course` (
 -- ----------------------------
 -- Records of course
 -- ----------------------------
-INSERT INTO `course` VALUES ('1', 'Java', 'a、JAVA程序设计</br>\nb、SQL SERVER 高级应用\n</br>c、jQuery高级编程\n</br>d、HTML5与CSS3开发</br>\ne、Oracle数据库应用', '1');
+INSERT INTO `course` VALUES ('1', 'Java', 'a、JAVA程序设计</br>\nb、SQL SERVER 高级应用\n</br>c、jQuery高级编程\n</br>d、HTML5与CSS3开发</br>\ne、Oracle数据库应用', '0');
 INSERT INTO `course` VALUES ('2', 'Web前端', 'a、HTML网页基础\n</br>b、CSS语言\n</br>c、PS设计\n</br>d、UI设计', '1');
 INSERT INTO `course` VALUES ('3', 'Android', 'a、JAVA开发基础</br>\nb、Android基础</br>\nc、Android高级技术\n</br>d、UI设计', '1');
 INSERT INTO `course` VALUES ('4', 'Phython', 'a、JAVA程序设计\n</br>b、SQL SERVER 高级应用\n</br>c、jQuery高级编程\n</br>d、HTML5与CSS3开发\n</br>e、Oracle数据库应用', '1');
@@ -148,10 +148,11 @@ CREATE TABLE `sysuser` (
   `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sysuser
 -- ----------------------------
 INSERT INTO `sysuser` VALUES ('1', 'carreliu', '123456', '1');
 INSERT INTO `sysuser` VALUES ('2', 'fdsf', '123', '1');
+INSERT INTO `sysuser` VALUES ('3', 'carre', '123', '1');

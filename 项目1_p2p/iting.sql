@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50728
 File Encoding         : 65001
 
-Date: 2020-04-09 15:05:51
+Date: 2020-05-07 10:00:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `apply` (
   PRIMARY KEY (`applyId`),
   KEY `FK_APPLY_PRODUCT` (`applyProductId`),
   CONSTRAINT `FK_APPLY_PRODUCT` FOREIGN KEY (`applyProductId`) REFERENCES `product` (`productId`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of apply
@@ -53,7 +53,7 @@ CREATE TABLE `company` (
   `financingInReturn` double DEFAULT NULL,
   `companyDetail` text,
   PRIMARY KEY (`companyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of company
@@ -72,7 +72,7 @@ CREATE TABLE `lendingperiod` (
   `period` varchar(20) DEFAULT NULL,
   `periodStatus` int(2) NOT NULL,
   PRIMARY KEY (`lendingPeriodId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of lendingperiod
@@ -94,7 +94,7 @@ CREATE TABLE `news` (
   `image` varchar(100) DEFAULT NULL,
   `heading` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`newsId`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news
@@ -131,7 +131,7 @@ CREATE TABLE `product` (
   CONSTRAINT `FK_PRO_LEADINGPRI` FOREIGN KEY (`lendingPeriodId`) REFERENCES `lendingperiod` (`lendingPeriodId`),
   CONSTRAINT `FK_PRO_PROTYPE` FOREIGN KEY (`productTypeId`) REFERENCES `producttype` (`productTypeId`),
   CONSTRAINT `FK_Pro_company` FOREIGN KEY (`companyId`) REFERENCES `company` (`companyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
@@ -152,7 +152,7 @@ CREATE TABLE `producttype` (
   `productTypeName` varchar(20) DEFAULT NULL,
   `productTypeStatus` int(2) NOT NULL,
   PRIMARY KEY (`productTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of producttype
