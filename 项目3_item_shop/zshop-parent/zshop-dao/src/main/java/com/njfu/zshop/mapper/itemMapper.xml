@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.zshop.dao.ItemDAO">
+
+    <sql id="itemColumn">
+        i.id "itemId",
+        i.product_id "productId",
+        i.num "num",
+        i.price "price",
+        i.order_id "orderId",
+        p.name "name",
+        p.info "info",
+        p.image "image"
+    </sql>
+
+    <resultMap id="itemMap" type="item">
+        <id property="id" column="itemId"></id>
+        <result property="productId" column="productId"></result>
+        <result property="num" column="num"></result>
+        <result property="price" column="price"></result>
+        <result property="orderId" column="orderId"></result>
+        <association property="product" javaType="product">
+            <id property="id" column="productId"></id>
+            <result property="name" column="name"></result>
+            <result property="price" column="price"></result>
+            <result property="info" column="info"></result>
+            <result property="image" column="image"></result>
+        </association>
+    </resultMap>
+
+
+    <insert id="insertItem" parameterType="item">
+        insert into
+            t_item (product_id, num, price, order_id)
+        values
+            (#{productId}, #{num}, #{price}, #{orderId})
+    </insert>
+
+    <select id="selectItemsByOrderId" resultMap="itemMap">
+        select
+            <include refid="itemColumn"/>
+        from
+            t_item i
+        left join
+            t_product p
+        on
+            i.product_id = p.id
+        where
+            i.order_id = #{id}
+    </select>
+
+    <delete id="deleteItemsByOrderId">
+        delete from
+            t_item
+        where
+            order_id = #{id}
+    </delete>
+</mapper>

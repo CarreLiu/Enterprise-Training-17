@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--扫描dao包，让其下的类识别spring注解-->
+    <context:component-scan base-package="com.njfu.zshop.dao"/>
+
+    <!--加载数据库配置文件-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:datasource.properties</value>
+                <value>classpath:ftp.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--集成数据源-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+    </bean>
+
+    <!--集成mybatis-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--配置别名-->
+        <property name="typeAliasesPackage" value="com.njfu.zshop.entity"/>
+        <!--加载Mapper映射文件
+        由于在pom.xml中配置了resources，所以这里的classpath指的是java，或者resources目录下的所有配置文件-->
+        <property name="mapperLocations" value="classpath:com/njfu/zshop/mapper/*Mapper.xml"/>
+
+        <!--mybatis分页插件  start-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="helperDialect">mysql</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+        <!--mybatis分页插件  end-->
+    </bean>
+
+    <!--生成mapper代理
+    扫描dao包，将该包下所有的类，接口生成Mapper代理-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.njfu.zshop.dao"/>
+    </bean>
+</beans>

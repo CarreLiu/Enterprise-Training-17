@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.zshop.dao.CustomerDAO">
+
+    <resultMap id="customerMap" type="customer">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="isValid" column="is_valid"/>
+        <result property="registDate" column="regist_date"/>
+    </resultMap>
+
+    <sql id="customerColumn">
+        id, name, login_name, password, phone, address, is_valid, regist_date
+    </sql>
+
+    <select id="selectByLoginNameAndPass" resultMap="customerMap">
+        select
+            <include refid="customerColumn"/>
+        from
+            t_customer
+        where
+            login_name = #{loginName} and password = #{password} and is_valid = #{isValid}
+    </select>
+    
+    <select id="selectCustomerById" resultMap="customerMap">
+        select
+            <include refid="customerColumn"/>
+        from
+            t_customer
+        where
+            id = #{id}
+    </select>
+
+    <update id="updateCustomer" parameterType="customer">
+        update
+            t_customer
+        set
+            phone = #{phone}, address = #{address}
+        where
+            id = #{id}
+    </update>
+
+    <select id="selectAll" resultMap="customerMap">
+        select
+            <include refid="customerColumn"/>
+        from
+           t_customer
+    </select>
+
+    <select id="selectById" resultMap="customerMap">
+        select
+            <include refid="customerColumn"/>
+        from
+            t_customer
+        where
+            id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="customer">
+        insert into
+          t_customer
+                (name,login_name,password,phone,address,is_valid,regist_date)
+        values
+            (#{name},#{loginName},#{password},#{phone},#{address},#{isValid},#{registDate})
+
+    </insert>
+
+    <select id="selectByName" resultType="customer">
+        select
+            name
+        from
+            t_customer
+        where
+            login_name = #{loginName}
+    </select>
+
+    <select id="selectByParams" parameterType="com.njfu.zshop.params.CustomerParam"  resultMap="customerMap">
+        select
+            <include refid="customerColumn"/>
+        from
+            t_customer
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat(concat('%',#{name}),'%')
+            </if>
+            <if test="loginName != null and loginName != ''">
+                and login_name like concat(concat('%',#{loginName}),'%')
+            </if>
+            <if test="phone != null and phone !=''">
+                and phone = #{phone}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="isValid != null and isValid != -1">
+                and is_valid = #{isValid}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="customer">
+        update
+          t_customer
+        set
+          name = #{name},
+          login_name = #{loginName},
+          phone = #{phone},
+          address = #{address}
+        where
+          id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update
+          t_customer
+        set
+          is_valid = #{isValid}
+        where id = #{id}
+
+    </update>
+
+    <select id="selectCustomerByIdAndPassword" resultMap="customerMap">
+        select
+            <include refid="customerColumn" />
+        from
+            t_customer
+        where
+            id = #{id} and password = #{password}
+    </select>
+
+    <update id="updatePassword">
+        update
+          t_customer
+        set
+          password = #{password}
+        where id = #{id}
+
+    </update>
+</mapper>

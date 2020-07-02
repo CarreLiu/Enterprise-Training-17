@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.zshop.dao.ProductDAO">
+
+    <sql id="productColumn">
+        id, name, price, info, image, product_type_id
+    </sql>
+
+    <resultMap id="productMap" type="product">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="price" column="price"></result>
+        <result property="info" column="info"></result>
+        <result property="image" column="image"></result>
+        <association property="productType" column="product_type_id" javaType="productType">
+            <id property="id" column="product_type_id"></id>
+        </association>
+    </resultMap>
+
+    <resultMap id="productMap1" type="product">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="price" column="price"></result>
+        <result property="info" column="info"></result>
+        <result property="image" column="image"></result>
+        <association property="productType" column="product_type_id" javaType="productType">
+            <id property="id" column="pt.id"></id>
+            <result property="name" column="pt.name"></result>
+            <result property="status" column="status"></result>
+        </association>
+    </resultMap>
+
+    <insert id="insert" parameterType="product">
+        insert into
+            t_product
+                (name, price, info, image, product_type_id)
+        value
+            (#{name}, #{price}, #{info}, #{image}, #{productType.id})
+    </insert>
+
+    <select id="selectByName" resultMap="productMap">
+        select
+            <include refid="productColumn"/>
+        from
+            t_product
+        where
+            name=#{name}
+    </select>
+    
+    <select id="selectAll" resultMap="productMap1">
+        select
+            p.id, p.name, p.price, p.info, p.image, p.product_type_id, pt.id 'pt.id', pt.name 'pt.name', pt.status
+        from
+            t_product p
+        left join
+            t_product_type pt
+        on
+            p.product_type_id = pt.id
+    </select>
+
+    <select id="selectById" resultMap="productMap1">
+        select
+            p.id, p.name, p.price, p.info, p.image, p.product_type_id, pt.id 'pt.id', pt.name 'pt.name', pt.status
+        from
+            t_product p
+        left join
+            t_product_type pt
+        on
+            p.product_type_id = pt.id
+        where
+            p.id = #{id}
+    </select>
+
+    <update id="update" parameterType="product">
+        update
+            t_product
+        set
+            name=#{name}, price=#{price},info=#{info},
+            <if test="image != null">image=#{image},</if>
+            product_type_id=#{productType.id}
+        where
+            id=#{id}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from
+            t_product
+        where
+            id=#{id}
+    </delete>
+
+    <select id="selectByParams" parameterType="com.njfu.zshop.params.ProductParam" resultMap="productMap">
+        select
+            <include refid="productColumn"/>
+        from
+            t_product
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat(concat('%', #{name}), '%')
+            </if>
+            <if test="minPrice != null">
+                and price &gt; #{minPrice}
+            </if>
+            <if test="maxPrice != null">
+                and price &lt; #{maxPrice}
+            </if>
+            <if test="productTypeId != null and productTypeId != -1">
+                and product_type_id = #{productTypeId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.zshop.dao.SysuserDAO">
+    <sql id="sysuserColumn">
+        id,name,login_name,password,phone,email,is_valid,create_date,role_id
+    </sql>
+
+    <resultMap id="sysuserMap" type="sysuser">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="isValid" column="is_valid"/>
+        <result property="createDate" column="create_date"/>
+        <association property="role" javaType="role">
+            <id property="id" column="r.id"/>
+            <result property="roleName" column="role_name"/>
+        </association>
+
+    </resultMap>
+    <resultMap id="sysuserMap1" type="sysuser">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="isValid" column="is_valid"/>
+        <result property="createDate" column="create_date"/>
+        <association property="role" javaType="role">
+            <id property="id" column="role_id"/>
+        </association>
+
+    </resultMap>
+
+    <select id="selectAll" resultMap="sysuserMap">
+        select
+           s.id,s.name,s.login_name,s.password,s.phone,s.email,s.is_valid,s.create_date,s.role_id,r.id 'r.id',r.role_name
+        from
+           t_sysuser s
+        left join
+            t_role r
+        on
+           s.role_id = r.id
+    </select>
+
+    <select id="selectById" resultMap="sysuserMap1">
+        select
+            <include refid="sysuserColumn"/>
+        from
+            t_sysuser
+        where
+            id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="sysuser">
+        insert into
+          t_sysuser
+                (name,login_name,password,phone,email,is_valid,create_date,role_id)
+        values
+            (#{name},#{loginName},#{password},#{phone},#{email},#{isValid},#{createDate},#{role.id})
+
+
+    </insert>
+
+    <select id="selectByName" resultType="sysuser">
+        select
+            name
+        from
+            t_sysuser
+        where
+            login_name=#{loginName}
+    </select>
+
+    <select id="selectByParams" parameterType="com.njfu.zshop.params.SysuserParam"  resultMap="sysuserMap">
+        select
+           s.id,s.name,s.login_name,s.password,s.phone,s.email,s.is_valid,s.create_date,s.role_id,r.id 'r.id',r.role_name
+        from
+           t_sysuser s
+        left join
+            t_role r
+        on
+           s.role_id = r.id
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat(concat('%',#{name}),'%')
+            </if>
+            <if test="loginName != null and loginName != ''">
+                and login_name like concat(concat('%',#{loginName}),'%')
+            </if>
+            <if test="phone != null and phone !=''">
+                and phone = #{phone}
+            </if>
+            <if test="roleId != null and roleId != -1">
+                and role_id = #{roleId}
+            </if>
+            <if test="isValid != null and isValid != -1">
+                and is_valid = #{isValid}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="sysuser">
+        update
+          t_sysuser
+        set
+          name=#{name},
+          phone=#{phone},
+          email=#{email},
+          role_id=#{role.id}
+        where
+          id=#{id}
+    </update>
+
+    <update id="updateStatus">
+        update
+          t_sysuser
+        set
+          is_valid=#{isValid}
+        where id=#{id}
+
+    </update>
+
+    <select id="selectByLoginNameAndPassword" resultType="sysuser">
+        select
+            id, name, login_name 'loginName'
+        from
+            t_sysuser
+        where
+            login_name = #{loginName} and password = #{password} and is_valid = #{isValid}
+    </select>
+</mapper>

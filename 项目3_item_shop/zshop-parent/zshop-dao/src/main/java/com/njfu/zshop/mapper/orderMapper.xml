@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njfu.zshop.dao.OrderDAO">
+
+    <sql id="orderColumn">
+        id, no, customer_id "customerId", price, create_date "createDate"
+    </sql>
+
+    <resultMap id="orderMap" type="order">
+        <id property="id" column="id"></id>
+        <result property="no" column="no"></result>
+        <result property="price" column="price"></result>
+        <result property="createDate" column="createDate"></result>
+        <association property="customer" javaType="customer">
+            <id property="id" column="customerId"></id>
+        </association>
+    </resultMap>
+
+    <insert id="insertOrder" parameterType="order" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            t_order(no, customer_id, price, create_date)
+        values
+            (#{no}, #{customer.id}, #{price}, #{createDate})
+    </insert>
+
+    <select id="selectOrdersByCustomerId" resultMap="orderMap">
+        select
+            <include refid="orderColumn"/>
+        from
+            t_order
+        where
+            customer_id = #{customerId}
+        order by create_date desc
+    </select>
+
+    <delete id="deleteOrder">
+        delete from
+            t_order
+        where
+            id = #{id}
+    </delete>
+
+    <select id="selectOrderById" resultMap="orderMap">
+        select
+            <include refid="orderColumn"/>
+        from
+            t_order
+        where
+            id = #{id}
+    </select>
+
+</mapper>
